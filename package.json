@@ -1,0 +1,21 @@
+{
+  "name": "serverless-log-format",
+  "version": "0.1.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "description": "Configure log format of your functions.",
+  "author": "Sernin van de Krol",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "test": "jest"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "devDependencies": {
+    "@types/serverless": "^3.12.22",
+    "serverless": "^3.38.0",
+    "typescript": "^5.4.4"
+  }
+}
