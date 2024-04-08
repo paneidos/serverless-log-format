@@ -25,14 +25,20 @@ class LogFormatPlugin implements Plugin {
             }
         }
 
-        // For reference on JSON schema, see https://github.com/ajv-validator/ajv
+        const extraProperties = {
+            logFormat: { type: 'string', enum: ['Text', 'JSON'] },
+            logLevel: { type: 'string', enum: ['TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL'] },
+            systemLogLevel: { type: 'string', enum: ['DEBUG', 'INFO', 'WARN'] },
+        }
+
+        // Define the properties for functions
         serverless.configSchemaHandler.defineFunctionProperties('aws', {
-            properties: {
-                logFormat: { type: 'string', enum: ['Text', 'JSON'] },
-                logLevel: { type: 'string', enum: ['TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL'] },
-                systemLogLeve: { type: 'string', enum: ['DEBUG', 'INFO', 'WARN'] },
-            },
+            properties: extraProperties,
         });
+
+        // Define the same properties on the provider
+        const schema = (serverless.configSchemaHandler as any).schema
+        Object.assign(schema.properties.provider.properties, extraProperties);
     }
 
     setFunctionLogConfig(logicalId: string, property: string, value: string) {
@@ -44,7 +50,7 @@ class LogFormatPlugin implements Plugin {
 
     async assignLogConfigs() {
         Object.entries(this.serverless.service.functions).forEach(([name, config]) => {
-            const logConfig = Object.assign({}, config) as FunctionLogging
+            const logConfig = Object.assign({}, this.serverless.service.provider, config) as FunctionLogging
             const logicalId = this.provider.naming.getLambdaLogicalId(name)
 
             this.log.warning(this.provider.naming.getLambdaLogicalId(name));
