@@ -53,8 +53,6 @@ class LogFormatPlugin implements Plugin {
             const logConfig = Object.assign({}, this.serverless.service.provider, config) as FunctionLogging
             const logicalId = this.provider.naming.getLambdaLogicalId(name)
 
-            this.log.warning(this.provider.naming.getLambdaLogicalId(name));
-
             if (logConfig.logFormat !== undefined) {
                 this.setFunctionLogConfig(logicalId, 'LogFormat', logConfig.logFormat)
             }
