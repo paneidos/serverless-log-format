@@ -6,6 +6,7 @@
   "description": "Configure log format of your functions.",
   "author": "Sernin van de Krol",
   "license": "MIT",
+  "keywords": ["serverless", "log"],
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "test": "jest"
